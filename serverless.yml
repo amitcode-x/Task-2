@@ -1,0 +1,22 @@
+service: ats-microservice
+
+provider:
+  name: aws
+  runtime: python3.10
+  environment:
+    ATS_BASE_URL: ${env:ATS_BASE_URL}
+    ATS_API_KEY: ${env:ATS_API_KEY}
+
+functions:
+  api:
+    handler: wsgi_handler.handler
+    events:
+      - httpApi: '*'
+
+plugins:
+  - serverless-wsgi
+  - serverless-offline
+
+custom:
+  wsgi:
+    app: ats_service.wsgi.application
